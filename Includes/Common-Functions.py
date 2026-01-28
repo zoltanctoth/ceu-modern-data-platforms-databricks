@@ -7,9 +7,7 @@ def setup_spark_conf():
     dbutils.widgets.text("users_path", users_path)
     dbutils.widgets.text("events_path", events_path)
     dbutils.widgets.text("products_path", products_path)
-    dbutils.widgets.text("people_path", people_path)
     dbutils.widgets.text("working_dir", working_dir)
-    dbutils.widgets.text("checkpoints_dir", checkpoints_dir)
 
 # COMMAND ----------
 

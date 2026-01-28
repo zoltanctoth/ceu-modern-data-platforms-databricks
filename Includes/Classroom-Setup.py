@@ -7,9 +7,9 @@ TARGET_FOLDER=f"{MY_VOLUME}/target/"
 
 # Core data paths
 sales_path = f"{SOURCE_LOCATION}/ecommerce/sales/sales.delta"
-users_path = f"{SOURCE_LOCATION}/source/ecommerce/users/users.delta"
-events_path = f"{SOURCE_LOCATION}/source/ecommerce/events/events.delta"
-products_path = f"{SOURCE_LOCATION}/source/products/products.delta"
+users_path = f"{SOURCE_LOCATION}/ecommerce/users/users.delta"
+events_path = f"{SOURCE_LOCATION}/ecommerce/events/events.delta"
+products_path = f"{SOURCE_LOCATION}/products/products.delta"
 
 # Working directories - for lab exercises
 working_dir = f"{MY_VOLUME}/target"
@@ -38,7 +38,7 @@ DA = SimpleNamespace(
 # MAGIC CREATE SCHEMA IF NOT EXISTS source;
 # MAGIC CREATE SCHEMA IF NOT EXISTS target;
 # MAGIC
-# MAGIC CREATE VOLUME IF NOT EXISTS dbx_course.source.files
+# MAGIC CREATE VOLUME IF NOT EXISTS dbx_course.source.files;
 # MAGIC
 
 # COMMAND ----------
@@ -49,7 +49,7 @@ try:
     if len(files) > 0:
         print("Source data already exists, skipping copy")
     else:
-        raise Exception("Data files already present in {SOURCE_LOCATION} - No copying needed")
+        raise Exception("Empty directory")
 except:
     print("Copying data from S3...")
     #spark.conf.set("fs.s3a.bucket.dbx-data-public.aws.credentials.provider", 
@@ -81,7 +81,7 @@ except:
 
 # COMMAND ----------
 
-# MAGIC %run ./_common
+# MAGIC %run ./Common-Functions
 
 # COMMAND ----------
 
