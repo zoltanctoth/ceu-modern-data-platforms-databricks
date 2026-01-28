@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC
 # MAGIC %md
 # MAGIC
 # MAGIC
@@ -166,11 +165,15 @@ displayHTML(html)
 
 # COMMAND ----------
 
-# MAGIC %fs ls
+# DBTITLE 1,Cell 16
+mkdirs /Users/zoltan+de2prep2026@nordquant.com/example-folder
 
 # COMMAND ----------
 
-# MAGIC %fs mkdirs /example-folder
+# DBTITLE 1,Get Databricks user email
+# Get the current Databricks user email
+user_email = dbutils.notebook.entry_point.getDbutils().notebook().getContext().userName().get()
+print(f"Your Databricks user email is: {user_email}")
 
 # COMMAND ----------
 
