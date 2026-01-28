@@ -160,23 +160,10 @@ displayHTML(html)
 # MAGIC Run file system commands on DBFS using the magic command: **`%fs`**
 # MAGIC
 # MAGIC <br/>
-# MAGIC 💡Replace the instances of <strong>FILL_IN</strong> in the cells below with your email address:
 
 # COMMAND ----------
 
-# DBTITLE 1,Cell 16
-mkdirs /Users/zoltan+de2prep2026@nordquant.com/example-folder
-
-# COMMAND ----------
-
-# DBTITLE 1,Get Databricks user email
-# Get the current Databricks user email
-user_email = dbutils.notebook.entry_point.getDbutils().notebook().getContext().userName().get()
-print(f"Your Databricks user email is: {user_email}")
-
-# COMMAND ----------
-
-# MAGIC %fs ls /
+# MAGIC %fs ls dbfs:/Volumes/dbx_course/source/files
 
 # COMMAND ----------
 
@@ -198,7 +185,7 @@ print(f"Your Databricks user email is: {user_email}")
 
 # COMMAND ----------
 
-dbutils.fs.ls("dbfs:/")
+dbutils.fs.ls("dbfs:/Volumes/dbx_course/source/files")
 
 # COMMAND ----------
 
@@ -211,7 +198,7 @@ dbutils.fs.ls("dbfs:/")
 
 # COMMAND ----------
 
-files = dbutils.fs.ls("/")
+files = dbutils.fs.ls("/Volumes/dbx_course/source/files")
 display(files)
 
 # COMMAND ----------
@@ -238,7 +225,7 @@ display(files)
 
 # COMMAND ----------
 
-files = dbutils.fs.ls("s3a://dbx-data-public/v03/ecommerce/events/events.delta")
+files = dbutils.fs.ls(DA.paths.events)
 display(files)
 
 # COMMAND ----------
@@ -266,8 +253,8 @@ display(files)
 
 # COMMAND ----------
 
-# MAGIC %sql 
-# MAGIC SELECT * FROM delta.`s3a://dbx-data-public/v03/ecommerce/events/events.delta`
+# MAGIC %sql
+# MAGIC SELECT * FROM delta.`dbfs:/Volumes/dbx_course/source/files/source/ecommerce/events/events.delta/`
 
 # COMMAND ----------
 
@@ -277,7 +264,7 @@ display(files)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE VIEW IF NOT EXISTS events AS SELECT * FROM delta.`s3a://dbx-data-public/v03/ecommerce/events/events.delta`
+# MAGIC CREATE VIEW IF NOT EXISTS events AS SELECT * FROM delta.`dbfs:/Volumes/dbx_course/source/files/source/ecommerce/events/events.delta/`
 
 # COMMAND ----------
 
@@ -289,7 +276,7 @@ display(files)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SHOW TABLES IN ceu
+# MAGIC SHOW TABLES IN target
 
 # COMMAND ----------
 
@@ -330,20 +317,6 @@ display(files)
 # MAGIC SELECT traffic_source, SUM(ecommerce.purchase_revenue_in_usd) AS total_revenue
 # MAGIC FROM events
 # MAGIC GROUP BY traffic_source
-
-# COMMAND ----------
-
-# MAGIC
-# MAGIC %md
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC ### Clean up classroom
-# MAGIC Clean up any temp files, tables and databases created by this lesson
-
-# COMMAND ----------
-
-cleanup()
 
 # COMMAND ----------
 
