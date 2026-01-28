@@ -1,36 +1,4 @@
 # Databricks notebook source
-# Define paths for data access
-data_source_version = "v03"
-
-# Core data paths
-sales_path = f"s3a://dbx-data-public/{data_source_version}/ecommerce/sales/sales.delta"
-users_path = f"s3a://dbx-data-public/{data_source_version}/ecommerce/users/users.delta"
-events_path = f"s3a://dbx-data-public/{data_source_version}/ecommerce/events/events.delta"
-products_path = f"s3a://dbx-data-public/{data_source_version}/products/products.delta"
-
-# People dataset path
-people_path = f"/mnt/data/{data_source_version}/people/people-with-dups.txt"
-
-# Working directories - for lab exercises
-working_dir = "/tmp/spark-course-working"
-checkpoints_dir = "/tmp/spark-course-checkpoints"
-
-# COMMAND ----------
-
-from types import SimpleNamespace
-DA = SimpleNamespace(
-    paths = SimpleNamespace(
-        datasets = f"s3a://dbx-data-public/{data_source_version}/",
-        working_dir=working_dir,
-        sales=sales_path,
-        events=events_path,
-        users=users_path,
-        products=products_path,
-    )
-)    
-
-# COMMAND ----------
-
 
 # Set Spark configuration parameters so paths can be accessed via SQL
 def setup_spark_conf():
@@ -156,31 +124,7 @@ def reset_working_dir():
 
     try:
         dbutils.fs.mkdirs(working_dir)
-        print(f"Created working directory: {working_dir}")
+        print(f"Created empty working directory: {working_dir}")
     except:
         print(f"Failed to create working directory: {working_dir}")
 
-
-# COMMAND ----------
-
-
-# Cleanup function that can be called at the end of notebooks
-def cleanup():
-    """Clean up resources at the end of a notebook."""
-    try:
-        for stream in spark.streams.active:
-            stream.stop()
-    except:
-        pass
-
-    try:
-        # Remove working directory
-        dbutils.fs.rm(working_dir, True)
-        print(f"Removed working directory: {working_dir}")
-    except:
-        pass
-
-# COMMAND ----------
-
-# Add cleanup function to maintain compatibility
-DA.cleanup = cleanup
