@@ -40,6 +40,7 @@ DA = SimpleNamespace(
 # MAGIC USE SCHEMA target;
 # MAGIC
 # MAGIC CREATE VOLUME IF NOT EXISTS dbx_course.source.files;
+# MAGIC CREATE VOLUME IF NOT EXISTS dbt_course.source.assignment_files;
 # MAGIC CREATE VOLUME IF NOT EXISTS dbx_course.target.files;
 # MAGIC
 

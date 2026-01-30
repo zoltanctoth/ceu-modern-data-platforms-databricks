@@ -35,7 +35,7 @@
 
 # COMMAND ----------
 
-#%fs ls /
+# %fs ls /
 
 # COMMAND ----------
 

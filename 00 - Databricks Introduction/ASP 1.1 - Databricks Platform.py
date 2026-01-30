@@ -165,7 +165,7 @@ displayHTML(html)
 
 # COMMAND ----------
 
-#%fs ls dbfs:/Volumes/dbx_course/source/files
+# %fs ls dbfs:/Volumes/dbx_course/source/files
 
 # COMMAND ----------
 
