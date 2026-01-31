@@ -33,8 +33,7 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC <FILL_IN>
+# MAGIC %fs <FILL_IN>
 
 # COMMAND ----------
 
@@ -51,7 +50,7 @@
 # COMMAND ----------
 
 # TODO
-files = FILL_IN
+files = <FILL_IN>
 display(files)
 
 # COMMAND ----------

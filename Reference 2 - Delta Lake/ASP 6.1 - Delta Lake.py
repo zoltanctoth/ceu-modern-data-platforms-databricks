@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC
 # MAGIC %md
 # MAGIC
 # MAGIC
@@ -33,6 +32,14 @@
 
 # COMMAND ----------
 
+display(dbutils.fs.ls(f"{DA.paths.datasets}/ecommerce/events/"))
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(f"{DA.paths.datasets}/ecommerce/events/events.parquet"))
+
+# COMMAND ----------
+
 events_df = spark.read.format("parquet").load(f"{DA.paths.datasets}/ecommerce/events/events.parquet")
 display(events_df)
 
@@ -51,6 +58,10 @@ events_df.write.format("delta").mode("overwrite").save(delta_path)
 
 # COMMAND ----------
 
+display(dbutils.fs.ls(delta_path))
+
+# COMMAND ----------
+
 # MAGIC
 # MAGIC %md
 # MAGIC
@@ -60,6 +71,11 @@ events_df.write.format("delta").mode("overwrite").save(delta_path)
 # COMMAND ----------
 
 events_df.write.format("delta").mode("overwrite").saveAsTable("delta_events")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SHOW TABLES
 
 # COMMAND ----------
 
@@ -96,6 +112,10 @@ state_events_df.write.format("delta").mode("overwrite").partitionBy("state").opt
 # COMMAND ----------
 
 display(dbutils.fs.ls(delta_path))
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(delta_path + "/state=CA"))
 
 # COMMAND ----------
 
@@ -160,19 +180,6 @@ display(spark.read.json(f"{delta_path}/_delta_log/00000000000000000001.json"))
 # MAGIC
 # MAGIC
 # MAGIC
-# MAGIC Finally, let's take a look at the files inside one of the state partitions. The files inside corresponds to the partition commit (file 01) in the _delta_log directory.
-
-# COMMAND ----------
-
-display(dbutils.fs.ls(f"{delta_path}/state=CA/"))
-
-# COMMAND ----------
-
-# MAGIC
-# MAGIC %md
-# MAGIC
-# MAGIC
-# MAGIC
 # MAGIC ### Read from your Delta table
 
 # COMMAND ----------
@@ -225,6 +232,13 @@ display(dbutils.fs.ls(f"{delta_path}/state=CA/"))
 # MAGIC
 # MAGIC
 # MAGIC ### Access previous versions of table using Time  Travel
+# MAGIC
+# MAGIC Fist, let's create our **events** table and then overwrite it with our filtered dataset
+
+# COMMAND ----------
+
+df.write.format("delta").mode("overwrite").saveAsTable("events")
+df_update.write.format("delta").mode("overwrite").saveAsTable("events")
 
 # COMMAND ----------
 
@@ -237,13 +251,18 @@ display(dbutils.fs.ls(f"{delta_path}/state=CA/"))
 
 # COMMAND ----------
 
-spark.sql("DROP TABLE IF EXISTS events_delta")
-spark.sql(f"CREATE TABLE events_delta USING DELTA LOCATION '{delta_path}'")
+# MAGIC %sql
+# MAGIC SHOW TABLES
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC DESCRIBE HISTORY events_delta
+# MAGIC SELECT * FROM events LIMIT 10
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC DESCRIBE HISTORY events
 
 # COMMAND ----------
 
@@ -256,8 +275,8 @@ spark.sql(f"CREATE TABLE events_delta USING DELTA LOCATION '{delta_path}'")
 
 # COMMAND ----------
 
-df = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
-display(df)
+# MAGIC %sql
+# MAGIC SELECT * FROM events VERSION AS OF 0
 
 # COMMAND ----------
 
@@ -274,11 +293,9 @@ display(df)
 
 # COMMAND ----------
 
-# TODO
-
-time_stamp_string = "2026-02-01"
-df = spark.read.format("delta").option("timestampAsOf", time_stamp_string).load(delta_path)
-display(df)
+# MAGIC %sql
+# MAGIC -- TODO: Change the time to the timestamp between version 0 and version 1
+# MAGIC SELECT * FROM events TIMESTAMP AS OF '2026-01-31T20:21:56.000+00:00'
 
 # COMMAND ----------
 
@@ -292,19 +309,18 @@ display(df)
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC -- This will fail as Databricks prohibits vacuuming for such a low retention period
+# MAGIC -- VACUUM events RETAIN 0 HOURS
+
+# COMMAND ----------
+
 # MAGIC
 # MAGIC %md
 # MAGIC
 # MAGIC
 # MAGIC
 # MAGIC It looks like our code doesn't run! By default, to prevent accidentally vacuuming recent commits, Delta Lake will not let users vacuum a period under 7 days or 168 hours. Once vacuumed, you cannot return to a prior commit through time travel, only your most recent Delta Table will be saved.
-
-# COMMAND ----------
-
-# from delta.tables import *
-
-# delta_table = DeltaTable.forPath(spark, delta_path)
-# delta_table.vacuum(0)
 
 # COMMAND ----------
 
@@ -317,24 +333,19 @@ display(df)
 
 # COMMAND ----------
 
-from delta.tables import *
-
-spark.conf.set("spark.databricks.delta.retentionDurationCheck.enabled", "false")
-delta_table = DeltaTable.forPath(spark, delta_path)
-delta_table.vacuum(0)
-
-# COMMAND ----------
-
-# MAGIC
 # MAGIC %md
+# MAGIC # Relaxing Vaccum Retention - Reference
 # MAGIC
-# MAGIC
-# MAGIC
-# MAGIC Let's take a look at our Delta Table files now. After vacuuming, the directory only holds the partition of our most recent Delta Table commit.
+# MAGIC The following code doesn't work on Databricks Serverless Compute
 
 # COMMAND ----------
 
-display(dbutils.fs.ls(delta_path + "/state=CA/"))
+# spark.conf.set("spark.databricks.delta.retentionDurationCheck.enabled", "false")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- VACUUM events RETAIN 0 HOURS
 
 # COMMAND ----------
 
@@ -348,11 +359,6 @@ display(dbutils.fs.ls(delta_path + "/state=CA/"))
 # MAGIC The code below should throw an error.
 # MAGIC
 # MAGIC Uncomment it and give it a try.
-
-# COMMAND ----------
-
-# df = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
-# display(df)
 
 # COMMAND ----------
 

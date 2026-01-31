@@ -258,7 +258,7 @@ events_df.write.mode("overwrite").saveAsTable("events")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SHOW TABLES IN ceu
+# MAGIC SHOW tables
 
 # COMMAND ----------
 
@@ -302,6 +302,10 @@ events_output_path = f"{DA.paths.workdir}/delta/events"
  .mode("overwrite")
  .save(events_output_path)
 )
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(events_output_path))
 
 # COMMAND ----------
 

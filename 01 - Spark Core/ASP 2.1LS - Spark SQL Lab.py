@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC
 # MAGIC %md
 # MAGIC
 # MAGIC
@@ -16,6 +15,7 @@
 # MAGIC - <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/spark_session.html" target="_blank">SparkSession</a>: **`sql`**, **`table`**
 # MAGIC - <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/dataframe.html" target="_blank">DataFrame</a> transformations: **`select`**, **`where`**, **`orderBy`**
 # MAGIC - <a href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html" target="_blank">DataFrame</a> actions: **`count`**, **`take`**
+# MAGIC - Displaying the contents of a DataFrame: `df.show()`, `display(df)`
 # MAGIC - Other <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/dataframe.html" target="_blank">DataFrame</a> methods: **`printSchema`**, **`schema`**, **`createOrReplaceTempView`**
 
 # COMMAND ----------
@@ -147,7 +147,7 @@ print("All tests pass")
 # MAGIC
 # MAGIC
 # MAGIC ### Classroom Cleanup
-
+# MAGIC
 # MAGIC %md
 # MAGIC Licence: <a target='_blank' href='https://github.com/databricks-academy/apache-spark-programming-with-databricks/blob/published/LICENSE'>Creative Commons Zero v1.0 Universal</a>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>
