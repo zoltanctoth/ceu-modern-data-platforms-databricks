@@ -4,8 +4,8 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE DATABASE IF NOT EXISTS ceu;
-# MAGIC USE ceu;
+# MAGIC CREATE DATABASE IF NOT EXISTS target;
+# MAGIC USE target;
 
 # COMMAND ----------
 
@@ -43,7 +43,7 @@ except Exception:
 
 displayHTML("✅ Classroom setup complete! 🎉")
 displayHTML(f"<br/>")
-displayHTML(f"✅ Created database 'ceu'")
+displayHTML(f"✅ Created database 'target'")
 displayHTML(f"<br/>")
 displayHTML(f"✅ Created views: users, sales, products, events")
 
