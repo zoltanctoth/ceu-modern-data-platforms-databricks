@@ -30,12 +30,11 @@
 # MAGIC Use a magic command to display files located in the DBFS directory: **`/Volumes/dbx_course/source/files`**
 # MAGIC
 # MAGIC 💡 You should see several directories.
-# MAGIC
-# MAGIC ⚠️ Remove the `#` from the next cell to execute the command
 
 # COMMAND ----------
 
-# %fs ls /Volumes/dbx_course/source/files
+# MAGIC %fs
+# MAGIC <FILL_IN>
 
 # COMMAND ----------
 
@@ -52,7 +51,7 @@
 # COMMAND ----------
 
 # TODO
-files = dbutils.fs.ls("FILL_IN")
+files = FILL_IN
 display(files)
 
 # COMMAND ----------
