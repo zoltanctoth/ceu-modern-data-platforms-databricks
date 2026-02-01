@@ -63,10 +63,12 @@ print("All tests pass")
 
 # COMMAND ----------
 
+# DBTITLE 1,Untitled
 # TODO
-ddl_schema = "item_id: string, name: string, price: double"
+ddl_schema = "item_id string, name string, price double"
 
 products_df2 = spark.read.csv(products_csv_path, header=True, schema=ddl_schema)
+products_df2.head()
 
 # COMMAND ----------
 

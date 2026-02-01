@@ -97,11 +97,32 @@ display(event_counts_df)
 # MAGIC
 # MAGIC
 # MAGIC
-# MAGIC Here, we're getting the average purchase revenue for each state.
+# MAGIC Here, we're getting the average purchase revenue for each state. We'll need to transform our embedded columns to top-level columns first. 
+# MAGIC
+# MAGIC _This is a regression in Spark 4 / Spark Connect__. Built-in aggregation functions can don't work on nested columns. As you'll see in the next cell, Spark doesn't pick up nested column when calculating aggregate values_
 
 # COMMAND ----------
 
-avg_state_purchases_df = df.groupBy("geo.state").avg("ecommerce.purchase_revenue_in_usd")
+avg_state_purchases_df = df.groupBy("geo.state").avg()
+
+display(avg_state_purchases_df)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
+# MAGIC Convert to top-level columns and aggregate from there:
+
+# COMMAND ----------
+
+# DBTITLE 1,Average purchase revenue by state (fixed)
+flat_df = df.select("user_id","geo.state", "geo.city", "ecommerce.total_item_quantity", "ecommerce.purchase_revenue_in_usd")
+display(flat_df)
+
+# COMMAND ----------
+
+avg_state_purchases_df = flat_df.groupBy("state").avg("purchase_revenue_in_usd")
+
 display(avg_state_purchases_df)
 
 # COMMAND ----------
@@ -114,7 +135,7 @@ display(avg_state_purchases_df)
 
 # COMMAND ----------
 
-city_purchase_quantities_df = df.groupBy("geo.state", "geo.city").sum("ecommerce.total_item_quantity", "ecommerce.purchase_revenue_in_usd")
+city_purchase_quantities_df = flat_df.groupBy("state", "city").sum("total_item_quantity", "purchase_revenue_in_usd")
 display(city_purchase_quantities_df)
 
 # COMMAND ----------
@@ -167,9 +188,9 @@ display(city_purchase_quantities_df)
 
 from pyspark.sql.functions import approx_count_distinct, avg
 
-state_aggregates_df = (df
-                       .groupBy("geo.state")
-                       .agg(avg("ecommerce.total_item_quantity").alias("avg_quantity"),
+state_aggregates_df = (flat_df
+                       .groupBy("state")
+                       .agg(avg("total_item_quantity").alias("avg_quantity"),
                             approx_count_distinct("user_id").alias("distinct_users"))
                       )
 

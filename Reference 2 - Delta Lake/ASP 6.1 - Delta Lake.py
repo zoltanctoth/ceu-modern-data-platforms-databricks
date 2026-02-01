@@ -294,8 +294,8 @@ df_update.write.format("delta").mode("overwrite").saveAsTable("events")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- TODO: Change the time to the timestamp between version 0 and version 1
-# MAGIC SELECT * FROM events TIMESTAMP AS OF '2026-01-31T20:21:56.000+00:00'
+# MAGIC -- TODO: Uncomment and Change the time to the timestamp between version 0 and version 1
+# MAGIC -- SELECT * FROM events TIMESTAMP AS OF '2026-01-31T20:21:56.000+00:00'
 
 # COMMAND ----------
 

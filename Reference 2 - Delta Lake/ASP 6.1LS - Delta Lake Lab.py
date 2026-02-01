@@ -91,7 +91,7 @@ print("All tests pass")
 # MAGIC ### 3. Rewrite sales data to same Delta path
 # MAGIC Write **`updated_sales_df`** to the same Delta location **`delta_sales_path`**.
 # MAGIC
-# MAGIC 💡 This will fail without an option to overwrite the schema.
+# MAGIC 💡 This will fail without an option to overwrite the schema. To overwrite the schema, add this option to your write command: `.option("overwriteSchema", "true")`
 
 # COMMAND ----------
 

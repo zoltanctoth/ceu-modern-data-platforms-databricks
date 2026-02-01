@@ -1,5 +1,4 @@
 # Databricks notebook source
-
 # Simple validation function to test if operations were successful
 def test_success(condition, success_message, failure_message):
     """Simple test function to validate operations."""
@@ -13,6 +12,7 @@ def test_success(condition, success_message, failure_message):
 
 # COMMAND ----------
 
+import builtins 
 
 # Simple function to create test suites
 def create_test_suite(name):
@@ -85,8 +85,8 @@ class SimpleSuite:
 
     def display_results(self):
         """Print test results summary."""
-        total = len(self.tests)
-        passed = sum(1 for _, result in self.tests if result)
+        total = builtins.len(self.tests)
+        passed = builtins.sum(1 for _, result in self.tests if result)
         print(f"\n===== Test Results for {self.name} =====")
         print(f"Passed: {passed}/{total} tests")
         if self.passed:
