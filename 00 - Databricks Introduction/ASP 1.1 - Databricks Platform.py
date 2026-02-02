@@ -247,7 +247,7 @@ display(files)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT * FROM delta.`/Volumes/dbx_course/source/files/source/ecommerce/events/events.delta/`
+# MAGIC SELECT * FROM delta.`/Volumes/dbx_course/source/files/datasets/ecommerce/events/events.delta/`
 
 # COMMAND ----------
 
@@ -265,7 +265,7 @@ display(files)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE VIEW IF NOT EXISTS events AS SELECT * FROM delta.`/Volumes/dbx_course/source/files/source/ecommerce/events/events.delta/`
+# MAGIC CREATE VIEW IF NOT EXISTS events AS SELECT * FROM delta.`/Volumes/dbx_course/source/files/datasets/ecommerce/events/events.delta/`
 
 # COMMAND ----------
 
