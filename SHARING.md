@@ -3,7 +3,7 @@
 ## Steps
 
 1. **Add user in workspace settings**
-   - Go to Settings → Identity and Access -> Users (Manage)
+   - Go to (Your logo in the top right corner) → Settings → Identity and Access -> Users (Manage)
    - Add the user's email address (New User)
 
 2. **User accepts invitation**
