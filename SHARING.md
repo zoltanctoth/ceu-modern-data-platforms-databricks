@@ -10,7 +10,7 @@
    - User receives email invitation
    - Clicks link to accept and create account
 
-3. **Share the Git repo**
+3. **Share the Git repo IN DATABRICKS (not on github)**
    - Navigate to your home folder
    - Find the Git repo (e.g., `ceu-modern-data-platforms-databrcks`)
    - Click the share icon/option
