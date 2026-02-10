@@ -29,8 +29,6 @@
 # MAGIC ### 1. List files in DBFS using magic commands
 # MAGIC Use a magic command to display files located in the DBFS directory: **`/Volumes/dbx_course/source/files`**
 # MAGIC
-# MAGIC 💡 You should see several directories.
-# MAGIC
 # MAGIC ⚠️ Remove the `#` from the next cell to execute the command
 
 # COMMAND ----------
@@ -46,8 +44,6 @@
 # MAGIC ### 2. List files in DBFS using dbutils
 # MAGIC - Use **`dbutils`** to get the files at the directory above and assign it to the variable **`files`**
 # MAGIC - Use the Databricks display() function to display the contents in **`files`**
-# MAGIC
-# MAGIC 💡 Just as before, you should see several user directories including your own.
 
 # COMMAND ----------
 
@@ -64,7 +60,7 @@ display(files)
 # MAGIC ### 3. Create views below from files in DBFS
 # MAGIC - Create the **`users`** view using the delta file's location **`/Volumes/dbx_course/source/files/datasets/ecommerce/users/users.delta`**
 # MAGIC - Create the **`sales`** view using **`/Volumes/dbx_course/source/files/datasets/ecommerce/sales/sales.delta`**
-# MAGIC - Create the **`products`** view using **`/Volumes/dbx_course/source/files/datasets/products/products.delta`** (! different folder)
+# MAGIC - Create the **`products`** view using **`/Volumes/dbx_course/source/files/datasets/products/products.delta`**
 # MAGIC - Create the **`events`** view using **`/Volumes/dbx_course/source/files/datasets/ecommerce/events/events.delta`**
 # MAGIC
 # MAGIC 💡 Hint: We've already created the **`events`** view in the previous notebook. Use `CREATE VIEW IF NOT EXISTS`
